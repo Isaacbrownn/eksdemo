@@ -1,21 +1,31 @@
 version: 0.2
-
 phases:
   install:
-    runtime-versions:
-      dotnet: 8.0
     commands:
-      - echo "Restoring .NET project dependencies..."
-      - dotnet restore aqa.csproj
+      - nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://127.0.0.1:2375 --storage-driver=overlay2 &
+      - timeout 15 sh -c "until docker info; do echo .; sleep 1; done"
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws --version
+      - AWS_DEFAULT_REGION=ap-south-1
+      - echo $AWS_DEFAULT_REGION
+      - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin ***********.dkr.ecr.ap-south-1.amazonaws.com
+      - REPOSITORY_URI=*********.dkr.ecr.ap-south-1.amazonaws.com/cicd
   build:
     commands:
-      - echo "Publishing the project..."
-      - dotnet publish aqa.csproj --configuration Release
+      - echo Build started on `date`
+      - docker images
+      - docker build -t testimage .
+      - echo $REPOSITORY_URI
+      - echo $REPOSITORY_URI:testimage
+      - docker tag testimage:latest $REPOSITORY_URI:testimage
   post_build:
     commands:
-      - echo "Running tests..."
-      - dotnet test --no-build --verbosity normal
+      - echo Build completed on `date`
+      - echo Pushing the Docker image...
+      - docker push $REPOSITORY_URI:testimage
+      - echo Writing image definition file...
+      - echo Done
 artifacts:
-  files:
-    - 'bin/Release/net8.0/publish/**' # Use the default output directory for published files
-  discard-paths: yes
+  files: imagedefinitions.json
