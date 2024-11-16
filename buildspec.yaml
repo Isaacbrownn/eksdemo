@@ -4,10 +4,10 @@ phases:
   install:
     commands:
       - apt-get update -y
-      - apt-get install -y awscli docker kubectl
-      - curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-      - chmod +x kubectl
-      - mv kubectl /usr/local/bin/kubectl
+      - curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+      - apt-add-repository "deb http://apt.kubernetes.io/ kubernetes-xenial main"
+      - apt-get update -y
+      - apt-get install -y kubectl
 
   pre_build:
     commands:
