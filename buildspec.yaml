@@ -3,19 +3,10 @@ version: 0.2
 phases:
   install:
     commands:
-   # Update apt and install dependencies for adding repos
-      - apt-get update -y
-      - apt-get install -y curl apt-transport-https gnupg
+ curl -LO "https://dl.k8s.io/release/v1.27.0/bin/linux/amd64/kubectl"
+chmod +x ./kubectl
+mv ./kubectl /usr/local/bin/kubectl
 
-      # Add Kubernetes official apt repository
-      - curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
-      - echo "deb https://apt.kubernetes.io/ kubernetes-stable main" | tee /etc/apt/sources.list.d/kubernetes.list
-
-      # Update apt again to include the Kubernetes repo
-      - apt-get update -y
-
-      # Install required packages (AWS CLI, Docker, kubectl)
-      - apt-get install -y awscli docker.io kubectl
 
   pre_build:
     commands:
