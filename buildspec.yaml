@@ -3,13 +3,13 @@ version: 0.2
 phases:
   install:
     commands:
-      # Update apt and install dependencies for adding repos
+   # Update apt and install dependencies for adding repos
       - apt-get update -y
       - apt-get install -y curl apt-transport-https gnupg
 
       # Add Kubernetes official apt repository
       - curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
-      - echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | tee /etc/apt/sources.list.d/kubernetes.list
+      - echo "deb https://apt.kubernetes.io/ kubernetes-stable main" | tee /etc/apt/sources.list.d/kubernetes.list
 
       # Update apt again to include the Kubernetes repo
       - apt-get update -y
