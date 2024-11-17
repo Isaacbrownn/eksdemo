@@ -32,6 +32,7 @@ phases:
       - echo "Deploying to Kubernetes (EKS)..."
       - aws eks --region us-west-2 update-kubeconfig --name simple-cluster
       - kubectl config get-contexts
+      - kubectl config use-context arn:aws:eks:us-west-2:344101797155:cluster/simple-cluster
       - kubectl apply -f deployment.yaml
 
 artifacts:
