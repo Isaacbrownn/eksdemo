@@ -29,7 +29,7 @@ phases:
       - echo Pushing Docker image to ECR...
       - docker push 344101797155.dkr.ecr.us-west-2.amazonaws.com/sample-dotnet-app:latest
       # Deploy the application to Kubernetes (EKS)
-      - echo Deploying to Kubernetes (EKS)...
+      - echo "Deploying to Kubernetes (EKS)..."
       - kubectl apply -f deployment.yaml
 
 artifacts:
