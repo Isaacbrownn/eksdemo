@@ -19,6 +19,7 @@ phases:
   build:
     commands:
       - docker build -t sample-dotnet-app .
+      - docker tag sample-dotnet-app:latest 344101797155.dkr.ecr.us-east-2.amazonaws.com/my-demo-repo:latest
 
   post_build:
     commands:
