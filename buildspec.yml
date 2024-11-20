@@ -16,8 +16,8 @@ phases:
     commands:
       # Login to ECR Registry for docker to push the image to ECR Repository
       - echo Logging in to Amazon ECR...
-      - aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 069279771141.dkr.ecr.us-east-2.amazonaws.com
-      - IMAGE_REPO_NAME=069279771141.dkr.ecr.us-east-2.amazonaws.com/nodejs-webapp
+      - aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 344101797155.dkr.ecr.us-east-2.amazonaws.com/my-demo-repo
+      - IMAGE_REPO_NAME=344101797155.dkr.ecr.us-east-2.amazonaws.com/my-demo-repo
       - IMAGE_TAG=v1.0.0.RELEASE
   build:
     commands:
