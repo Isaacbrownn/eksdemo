@@ -34,7 +34,7 @@ phases:
       - echo Pushing the Docker image...
       - docker push $IMAGE_REPO_NAME:$IMAGE_TAG
       # Setup kubectl with our EKS Cluster
-      - aws eks update-kubeconfig --name k8s-boyz --region us-east-2
+      - aws eks update-kubeconfig --name k8s-boy --region us-east-2
       - echo Push the latest image to cluster
       # Apply changes to our Application using kubectl
-      - kubectl apply -f deployment.yml
+      - kubectl apply -f k8s-deployment-service.yml
