@@ -11,6 +11,10 @@ phases:
       #- source ~/.bashrc
       - echo 'Check kubectl version'
       - kubectl version --short --client
+      - curl -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.20.4/2021-07-05/bin/linux/amd64/aws-iam-authenticator
+      - chmod +x ./aws-iam-authenticator
+      - mv ./aws-iam-authenticator $HOME/bin/aws-iam-authenticator
+
       
   pre_build:
     commands:
