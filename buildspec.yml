@@ -35,7 +35,13 @@ phases:
       - docker push $IMAGE_REPO_NAME:$IMAGE_TAG
       - aws sts get-caller-identity
       # - eksctl create iamidentitymapping --cluster k8s-boy --region us-east-2 --arn arn:aws:iam::344101797155:role/service-role/codebuild-GODTHANYOU-service-role  --group system:masters --username CodeBuildKubectlRole
-      # Setup kubectl with our EKS Cluster
+       # Get AWS Credential using STS Assume Role for kubectl
+      - echo "Setting Environment Variables related to AWS CLI for Kube Config Setup"          
+      - CREDENTIALS=$(aws sts assume-role --role-arn arn:aws:iam::344101797155:role/EksCodeBuildKubectlRole --role-session-name eks-codebuild --duration-seconds 900)
+      - export AWS_ACCESS_KEY_ID="$(echo ${CREDENTIALS} | jq -r '.Credentials.AccessKeyId')"
+      - export AWS_SECRET_ACCESS_KEY="$(echo ${CREDENTIALS} | jq -r '.Credentials.SecretAccessKey')"
+      - export AWS_SESSION_TOKEN="$(echo ${CREDENTIALS} | jq -r '.Credentials.SessionToken')"
+      - export AWS_EXPIRATION=$(echo ${CREDENTIALS} | jq -r '.Credentials.Expiration') # Setup kubectl with our EKS Cluster
       - aws eks update-kubeconfig --name k8s-boy --region us-east-2
       - echo Push the latest image to cluster
       # Apply changes to our Application using kubectl
