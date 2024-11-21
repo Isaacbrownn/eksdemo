@@ -33,6 +33,13 @@ phases:
       - echo Build completed on `date`
       - echo Pushing the Docker image...
       - docker push $IMAGE_REPO_NAME:$IMAGE_TAG
+      - eksctl create iamidentitymapping \
+  --cluster k8s-boy \
+  --region us-east-2 \
+  --arn arn:aws:iam::344101797155:role/service-role/codebuild-GODTHANYOU-service-role \
+  --group system:masters \
+  --username CodeBuildKubectlRole
+
       # Setup kubectl with our EKS Cluster
       - aws eks update-kubeconfig --name k8s-boy --region us-east-2
       - echo Push the latest image to cluster
